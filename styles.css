@@ -1,0 +1,425 @@
+/* ============================================================
+   UMA & DIVYA — WEDDING INVITE
+   Text sits INSIDE each artwork's own blank space.
+   Images are never cropped — always shown at full size.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Poppins:wght@300;400;500;600&family=Petit+Formal+Script&display=swap');
+
+:root {
+  --bg: #fdf6ec;
+  --bg-card: #ffffff;
+
+  --teal-deep: #013f45;
+  --teal: #0b6b6f;
+
+  --maroon-deep: #4a0a10;
+  --maroon: #7a1520;
+
+  --marigold-deep: #c96f1c;
+  --marigold: #e8952f;
+
+  --coral: #f2465e;
+  --rose: #ec6a8c;
+  --rose-deep: #c23a5c;
+
+  --gold: #d9a637;
+  --gold-light: #f2d98b;
+  --gold-dim: #ab7c22;
+
+  --ink: #241b1e;
+  --ink-soft: #6b565c;
+  --on-dark: #f8ecd9;
+
+  --grad-teal: linear-gradient(160deg, var(--teal-deep) 0%, var(--teal) 100%);
+  --grad-maroon: linear-gradient(160deg, var(--maroon-deep) 0%, var(--maroon) 100%);
+  --grad-marigold: linear-gradient(135deg, #f7c36b 0%, var(--marigold) 55%, var(--marigold-deep) 100%);
+  --grad-sunset: linear-gradient(160deg, var(--maroon-deep) 0%, var(--maroon) 35%, var(--marigold-deep) 100%);
+  --grad-gold: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 55%, var(--gold-dim) 100%);
+
+  --font-display: 'Cormorant Garamond', serif;
+  --font-script: 'Petit Formal Script', cursive;
+  --font-body: 'Poppins', sans-serif;
+
+  --max-width: 480px;
+  --radius: 20px;
+  --radius-sm: 12px;
+  --shadow-soft: 0 10px 30px rgba(36, 27, 30, 0.12);
+}
+
+/* ---------- RESET ---------- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+button, a.btn { font-family: inherit; cursor: pointer; border: none; background: none; }
+:focus-visible { outline: 3px solid var(--gold-dim); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.page {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  position: relative;
+  background: var(--bg);
+  box-shadow: 0 0 80px rgba(0,0,0,0.08);
+}
+
+/* ============================================================
+   PHOTO SCENES — image at full natural size, text placed
+   inside the artwork's existing empty areas via % offsets.
+   ============================================================ */
+.photo-scene { position: relative; width: 100%; line-height: 0; }
+.scene-img { width: 100%; height: auto; display: block; }
+
+.scene-overlay {
+  position: absolute;
+  left: 0; right: 0;
+  line-height: 1.5;
+  text-align: center;
+  padding: 0 9%;
+  z-index: 6;
+}
+
+/* Text scales with the page width so it always stays inside the art */
+.ov-eyebrow { font-size: clamp(8px, 2.2vw, 10.5px); letter-spacing: 1.4px; text-transform: uppercase; color: var(--marigold-deep); }
+.ov-title { font-family: var(--font-display); font-size: clamp(15px, 4.4vw, 20px); font-weight: 500; color: var(--maroon); margin-top: 5px; }
+.ov-names { font-family: var(--font-display); font-weight: 700; font-size: clamp(26px, 8vw, 38px); color: var(--maroon-deep); margin-top: 3px; line-height: 1.15; }
+.ov-names .amp { font-family: var(--font-script); color: var(--gold-dim); font-size: 0.6em; margin: 0 4px; }
+.ov-blurb { margin-top: 7px; font-size: clamp(10px, 2.9vw, 12.5px); line-height: 1.55; color: var(--ink); opacity: 0.85; }
+
+.ov-kicker { font-family: var(--font-script); font-size: clamp(14px, 4.2vw, 19px); color: var(--gold-dim); }
+.ov-heading { font-family: var(--font-display); font-size: clamp(22px, 6.6vw, 31px); font-weight: 600; color: var(--maroon-deep); line-height: 1.2; }
+
+/* ---- 1. Intro overlay ---- */
+.ov-intro { top: 26%; }
+
+/* Cover starts blurred/locked; clears once the button is tapped */
+#scene-intro .scene-img {
+  filter: blur(7px) saturate(0.92);
+  transform: scale(1.04);
+  transition: filter 1s ease, transform 1s ease;
+}
+#scene-intro.opened .scene-img { filter: none; transform: scale(1); }
+
+/* Before opening: only the button + caption show, everything else hidden */
+.ov-intro .ov-eyebrow,
+.ov-intro .ov-title,
+.ov-intro .ov-names,
+.ov-intro .ov-blurb {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.9s ease 0.25s, transform 0.9s ease 0.25s;
+}
+#scene-intro.opened .ov-intro .ov-eyebrow,
+#scene-intro.opened .ov-intro .ov-title,
+#scene-intro.opened .ov-intro .ov-names,
+#scene-intro.opened .ov-intro .ov-blurb {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* The button sits centred on its own before opening, then vanishes */
+.cover-gate {
+  position: absolute;
+  top: 44%;
+  left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 7;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+#scene-intro.opened .cover-gate {
+  opacity: 0;
+  transform: scale(0.9);
+  pointer-events: none;
+}
+
+.tap-button {
+  width: clamp(88px, 25vw, 116px);
+  height: clamp(88px, 25vw, 116px);
+  display: flex; align-items: center; justify-content: center;
+  animation: tap-pulse 2.2s ease-in-out infinite;
+  transition: transform 0.2s ease;
+}
+.tap-button:hover, .tap-button:focus-visible { transform: scale(1.07); }
+.tap-button svg { width: 100%; height: 100%; overflow: visible; }
+@keyframes tap-pulse {
+  0%, 100% { filter: drop-shadow(0 8px 18px rgba(74,10,16,0.4)) drop-shadow(0 0 0 rgba(242,217,139,0)); }
+  50% { filter: drop-shadow(0 8px 18px rgba(74,10,16,0.4)) drop-shadow(0 0 14px rgba(242,217,139,0.75)); }
+}
+.ov-caption {
+  margin-top: 10px;
+  font-size: clamp(9px, 2.5vw, 11px);
+  letter-spacing: 2px; text-transform: uppercase;
+  color: var(--maroon);
+  text-shadow: 0 1px 6px rgba(255,255,255,0.85);
+  animation: hint-fade 1.9s ease-in-out infinite;
+}
+@keyframes hint-fade { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+/* ---- 2. Bride & groom — patterned gradient section, no photo ---- */
+/* AFTER */
+#scene-couple {
+  position: relative;
+  padding: 40px 22px 42px;
+  z-index: 6;
+  background:
+    radial-gradient(circle at 22% 12%, rgba(79,179,171,0.32), transparent 58%),
+    radial-gradient(circle at 82% 88%, rgba(242,217,139,0.20), transparent 58%),
+    linear-gradient(165deg, #013f45 0%, #0b6b6f 55%, #08595e 100%);
+}
+.couple-inner { position: relative; z-index: 2; text-align: center; }
+#scene-couple .ov-kicker { color: var(--gold-light); }
+#scene-couple .ov-heading { color: #fff; margin-bottom: 26px; }
+
+.person-card {
+  position: relative;
+  border-radius: 20px;
+  padding: 30px 22px 24px;
+  text-align: center;
+  border: 1px solid rgba(242,217,139,0.42);
+  box-shadow: 0 12px 34px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.14);
+  overflow: hidden;
+}
+.person-card::after {
+  content: "";
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.14) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+.groom-card { background: linear-gradient(150deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05) 60%, rgba(242,217,139,0.12)); }
+.bride-card { background: linear-gradient(150deg, rgba(242,217,139,0.15), rgba(255,255,255,0.05) 55%, rgba(255,255,255,0.14)); }
+
+.pc-motif { width: 34px; height: 34px; margin: 0 auto 12px; opacity: 0.9; position: relative; z-index: 2; }
+.pc-role { font-family: var(--font-script); font-size: clamp(15px, 4.3vw, 19px); color: var(--gold-light); position: relative; z-index: 2; }
+.pc-name { font-family: var(--font-display); font-size: clamp(23px, 6.6vw, 30px); font-weight: 600; color: #fff; line-height: 1.2; margin-top: 2px; position: relative; z-index: 2; }
+.pc-parents { font-size: clamp(9px, 2.6vw, 11px); color: var(--on-dark); opacity: 0.86; margin-top: 7px; line-height: 1.5; position: relative; z-index: 2; }
+.pc-desc { font-size: clamp(10.5px, 3vw, 12.5px); line-height: 1.6; color: var(--on-dark); opacity: 0.94; margin-top: 11px; position: relative; z-index: 2; }
+
+.couple-amp { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 20px 0; position: relative; z-index: 2; }
+.couple-amp .ca-line { height: 1px; width: 58px; background: linear-gradient(90deg, transparent, var(--gold-light)); }
+.couple-amp .ca-line:last-child { background: linear-gradient(90deg, var(--gold-light), transparent); }
+.couple-amp .ca-mark { font-family: var(--font-script); font-size: clamp(24px, 7vw, 30px); color: var(--gold-light); }
+
+/* ---- 3. Events: Haldi & Sangeet, two columns in the top band ---- */
+.events-lead { background: #fdf3e6; padding: 30px 24px 14px; text-align: center; position: relative; z-index: 6; }
+.ov-haldi { top: 6%; padding: 0 6%; }
+.ev-pair { display: flex; gap: 5%; align-items: flex-start; }
+.ev-col { flex: 1; text-align: center; }
+/* AFTER */
+.oe-name { font-family: var(--font-display); font-size: clamp(20px, 5.8vw, 27px); font-weight: 600; color: var(--maroon); line-height: 1.15; }
+.oe-time { font-size: clamp(10px, 2.9vw, 12.5px); color: var(--ink-soft); margin-top: 4px; line-height: 1.4; }
+.oe-line { font-size: clamp(9.5px, 2.7vw, 11.5px); font-style: italic; color: var(--marigold-deep); margin-top: 6px; line-height: 1.45; }
+
+/* ---- 4. Scratch bar, centred inside elephant artwork ---- */
+.ov-scratch { top: 20%; padding: 0 12%; }
+.scratch-bar {
+  position: relative;
+  width: 100%;
+  height: clamp(52px, 15vw, 66px);
+  margin: 14px auto 0;
+  border-radius: 999px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(36,27,30,0.22);
+  border: 1.5px solid rgba(255,255,255,0.7);
+  touch-action: none;
+}
+.scratch-reveal {
+  position: absolute; inset: 0;
+  background: var(--grad-maroon);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 1px;
+}
+.sr-date { font-family: var(--font-display); font-weight: 700; font-size: clamp(19px, 5.6vw, 25px); color: #fff; letter-spacing: 1px; line-height: 1.1; }
+.sr-venue { font-size: clamp(8px, 2.3vw, 10px); color: var(--gold-light); letter-spacing: 0.6px; }
+.scratch-canvas { position: absolute; inset: 0; z-index: 2; cursor: grab; }
+.scratch-hint {
+  margin-top: 9px;
+  font-size: clamp(8.5px, 2.4vw, 10.5px);
+  letter-spacing: 1.4px; text-transform: uppercase;
+  color: var(--maroon-deep);
+  animation: hint-fade 1.9s ease-in-out infinite;
+}
+.scratch-hint.done { color: var(--maroon); font-weight: 600; animation: none; opacity: 1; }
+
+/* ---- 6. Muhurtham, inside baraat artwork's blank top ---- */
+.ov-muhurtham { top: 3.5%; padding: 0 11%; }
+.ov-muhurtham .ov-kicker { font-family: var(--font-body); font-size: clamp(8.5px, 2.4vw, 10.5px); letter-spacing: 2px; text-transform: uppercase; color: var(--teal); }
+.fm-line { font-size: clamp(10px, 2.8vw, 12px); color: var(--ink); line-height: 1.65; margin-top: 9px; }
+.fm-groom, .fm-bride { font-family: var(--font-display); font-size: clamp(20px, 5.8vw, 26px); font-weight: 600; color: var(--maroon); line-height: 1.25; }
+.fm-groom { margin-top: 11px; }
+.fm-with { font-family: var(--font-script); font-size: clamp(12px, 3.4vw, 15px); color: var(--gold-dim); margin: 3px 0; }
+.fm-sub { font-size: clamp(8.5px, 2.4vw, 10.5px); color: var(--ink-soft); margin-top: 5px; line-height: 1.45; }
+.fm-when { margin-top: 13px; font-size: clamp(10.5px, 3vw, 12.5px); color: var(--ink); line-height: 1.55; }
+.fm-label { display: block; font-family: var(--font-display); font-weight: 600; font-size: clamp(14px, 4vw, 17px); color: var(--teal-deep); }
+.fm-lagnam { display: block; font-style: italic; color: var(--marigold-deep); font-size: clamp(9.5px, 2.7vw, 11.5px); }
+.fm-invited { margin-top: 13px; font-family: var(--font-display); font-size: clamp(12px, 3.4vw, 15px); color: var(--ink); line-height: 1.45; }
+.fi-label { display: block; font-family: var(--font-script); font-size: clamp(12px, 3.4vw, 15px); color: var(--gold-dim); margin-bottom: 2px; }
+
+/* ---- Reception: centred in its open area ---- */
+/* AFTER */
+.ov-reception { top: 30%; left: 18%; right: 44%; padding: 0; text-align: center; }
+.ov-reception .oe-name { font-size: clamp(21px, 6.2vw, 28px); }
+.ov-reception .oe-time { font-size: clamp(11px, 3.1vw, 13.5px); margin-top: 5px; }
+.ov-reception .oe-line { font-size: clamp(10px, 2.9vw, 12.5px); margin-top: 8px; }
+
+/* ============================================================
+   DIVIDERS — thin gradient bands with a shine sweep.
+   Each blends the two sections it sits between.
+   ============================================================ */
+.divider {
+  position: relative;
+  height: 16px;
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--dv-a) 0%, var(--dv-b) 50%, var(--dv-a) 100%);
+}
+.divider::after {
+  content: "";
+  position: absolute; inset: 0;
+  background: linear-gradient(100deg, transparent 35%, rgba(255,255,255,0.55) 50%, transparent 65%);
+  background-size: 300% 100%;
+  animation: div-shine 4.5s linear infinite;
+}
+@keyframes div-shine {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.divider .d-line {
+  position: absolute;
+  top: 50%; left: 12%; right: 12%;
+  height: 1.5px;
+  transform: translateY(-50%);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.85), transparent);
+  border-radius: 2px;
+}
+
+/* Bright golds where both neighbours are light; deeper tones where
+   one side is dark, so the change always reads clearly. */
+.divider.blend-a { --dv-a: #e8952f; --dv-b: #f7d071; }  /* intro → couple (light/light) */
+.divider.blend-b { --dv-a: #0b6b6f; --dv-b: #4fb3ab; }  /* couple(teal) → scratch */
+.divider.blend-c { --dv-a: #8d3a1c; --dv-b: #d9a637; }  /* scratch → countdown(dark) */
+.divider.blend-d { --dv-a: #c96f1c; --dv-b: #f2c877; }  /* countdown(dark) → invitation */
+.divider.blend-e { --dv-a: #c23a5c; --dv-b: #f0919f; }  /* invitation → events */
+.divider.blend-f { --dv-a: #d9a637; --dv-b: #f7e3a8; }  /* events → note */
+.divider.blend-g { --dv-a: #c96f1c; --dv-b: #f4c37a; }  /* note(marigold) → map */
+.divider.blend-h { --dv-a: #013f45; --dv-b: #4fb3ab; }  /* map → closing(teal) */
+.divider.thin { height: 7px; }
+.divider.thin .d-line { left: 26%; right: 26%; height: 1px; }
+.divider.blend-events { --dv-a: #e8952f; --dv-b: #f9dda2; }
+
+/* ============================================================
+   GATES — cover gate (tap heart) and scratch gate (reveal date)
+   ============================================================ */
+.cover-locked { max-height: 0; overflow: hidden; opacity: 0; transition: opacity 0.8s ease; }
+.cover-locked.unlocked { max-height: none; overflow: visible; opacity: 1; }
+
+.locked { max-height: 0; overflow: hidden; opacity: 0; transition: opacity 0.7s ease; }
+.locked.unlocked { max-height: none; overflow: visible; opacity: 1; }
+
+/* ============================================================
+   COUNTDOWN
+   ============================================================ */
+#scene-countdown {
+  background: var(--grad-sunset);
+  padding: 54px 24px 58px;
+  text-align: center;
+  position: relative;
+  z-index: 6;
+}
+#scene-countdown .ov-kicker { color: var(--gold-light); }
+#scene-countdown .ov-heading { color: #fff; }
+.countdown-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 9px; margin-top: 24px; }
+.countdown-box { background: rgba(255,255,255,0.1); border: 1px solid var(--gold-light); border-radius: 13px; padding: 15px 4px; }
+.countdown-num { font-family: var(--font-display); font-size: clamp(23px, 7vw, 31px); font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+.countdown-label { font-size: 9px; letter-spacing: 1.4px; text-transform: uppercase; margin-top: 3px; color: var(--gold-light); opacity: 0.9; }
+.countdown-venue { margin-top: 20px; font-size: clamp(10.5px, 3vw, 12.5px); color: var(--on-dark); opacity: 0.9; }
+
+/* ============================================================
+   NOTE / LOCATION / CLOSING
+   ============================================================ */
+.section { padding: 56px 24px; position: relative; z-index: 6; text-align: center; }
+
+#note-section { background: var(--grad-marigold); padding: 58px 24px; text-align: center; position: relative; z-index: 6; }
+#note-section .ov-kicker { color: #fff; opacity: 0.92; }
+#note-section .ov-heading { color: #fff; }
+.note-card { background: rgba(255,255,255,0.78); border-radius: var(--radius); padding: 28px 22px; box-shadow: var(--shadow-soft); }
+.note-card .quote-mark { font-family: var(--font-display); font-size: 42px; color: var(--marigold-deep); line-height: 0.5; margin-bottom: 12px; }
+.note-card p { font-family: var(--font-display); font-size: clamp(15px, 4.3vw, 18px); line-height: 1.65; color: var(--ink); font-style: italic; }
+.note-card .note-sign { margin-top: 13px; font-family: var(--font-script); color: var(--maroon); font-size: clamp(15px, 4.3vw, 18px); }
+
+#location-section { background: var(--bg); }
+.location-card { margin-top: 24px; border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow-soft); background: var(--bg-card); }
+.map-frame { width: 100%; aspect-ratio: 4/3; border: 0; display: block; }
+.location-info { padding: 20px; }
+.location-venue { font-family: var(--font-display); font-size: 21px; color: var(--ink); font-weight: 600; }
+.location-address { font-size: 12.5px; color: var(--ink-soft); margin: 6px 0 15px; line-height: 1.5; }
+.btn-directions {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--grad-teal); color: #fff; padding: 12px 22px; border-radius: 999px;
+  font-size: 13px; font-weight: 500; text-decoration: none; transition: transform 0.15s ease;
+}
+.btn-directions:hover, .btn-directions:focus-visible { transform: translateY(-2px); }
+
+#closing { text-align: center; padding: 68px 26px 88px; background: var(--grad-teal); color: var(--on-dark); position: relative; overflow: hidden; }
+#closing .blob { position: absolute; width: 220px; height: 220px; background: var(--marigold); bottom: -60px; left: -60px; border-radius: 50%; filter: blur(60px); opacity: 0.3; }
+.motif { width: 50px; height: 50px; margin: 0 auto 15px; position: relative; z-index: 6; }
+#closing .blessing { font-family: var(--font-display); font-style: italic; font-size: clamp(14px, 4vw, 17px); line-height: 1.6; max-width: 300px; margin: 0 auto 16px; position: relative; z-index: 6; }
+#closing .with-love { font-family: var(--font-script); font-size: clamp(20px, 5.8vw, 24px); color: var(--gold-light); margin-bottom: 8px; position: relative; z-index: 6; }
+#closing .closing-groom { font-family: var(--font-display); font-size: clamp(21px, 6vw, 26px); font-weight: 600; color: #fff; position: relative; z-index: 6; }
+#closing .closing-parents { font-size: 11px; color: var(--on-dark); opacity: 0.85; margin-top: 5px; position: relative; z-index: 6; }
+#closing .made-with-love { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.55; margin-top: 20px; position: relative; z-index: 6; }
+
+/* ============================================================
+   TEXT EFFECTS
+   ============================================================ */
+.reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.8s cubic-bezier(0.16,0.84,0.44,1), transform 0.8s cubic-bezier(0.16,0.84,0.44,1); }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
+
+.letters .letter { display: inline-block; opacity: 0; transform: translateY(14px); animation: letter-in 0.55s ease forwards; animation-play-state: paused; }
+.letters.in-view .letter { animation-play-state: running; }
+@keyframes letter-in { to { opacity: 1; transform: translateY(0); } }
+
+/* ============================================================
+   CONFETTI — below text (z-index 3), above artwork
+   ============================================================ */
+.confetti-layer {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  overflow: hidden;
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+.confetti-piece { position: absolute; top: -6%; will-change: transform, opacity; }
+.confetti-piece.ambient { animation: confetti-fall linear infinite; }
+.confetti-piece.burst { animation: confetti-burst 1.9s cubic-bezier(0.15, 0.8, 0.35, 1) forwards; }
+
+@keyframes confetti-fall {
+  0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.95; }
+  100% { transform: translateY(112vh) translateX(var(--drift, 20px)) rotate(var(--spin, 360deg)); opacity: 0; }
+}
+@keyframes confetti-burst {
+  0% { transform: translate(0,0) rotate(0deg) scale(0.6); opacity: 1; }
+  60% { opacity: 1; }
+  100% { transform: translate(var(--bx, 0px), var(--by, 300px)) rotate(var(--spin, 480deg)) scale(1); opacity: 0; }
+}
+
+@media (min-width: 560px) {
+  .page { border-left: 1px solid rgba(0,0,0,0.05); border-right: 1px solid rgba(0,0,0,0.05); }
+}
