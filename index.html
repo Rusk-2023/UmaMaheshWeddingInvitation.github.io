@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Uma & Divya — Wedding Invitation</title>
+<meta name="description" content="You are warmly invited to the wedding of Uma Maheswara Rao and Divya Teja.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page" id="page">
+
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+
+  <!-- ============================================================
+       COVER — Image 1, with intro + tap-to-open button
+       ============================================================ -->
+  <div id="envelope-screen">
+    <div class="cover-inner" id="coverInner">
+      <div class="cover-eyebrow">Shrirasthu &middot; Shubhamasthu &middot; Avignamasthu</div>
+      <div class="cover-title">Padala&rsquo;s Wedding Invitation</div>
+      <div class="cover-names letters" id="introNames">Uma <span class="intro-amp">&amp;</span> Divya</div>
+      <p class="cover-blurb">Two families, one beautiful beginning &mdash; you're warmly invited to be part of it.</p>
+
+      <button class="tap-button" id="tapButton" type="button" aria-label="Open your invitation">
+        <svg viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="30" r="28" stroke="#f2d98b" stroke-width="1.4"/>
+          <circle cx="30" cy="30" r="21" stroke="#f2d98b" stroke-width="1"/>
+          <text x="30" y="35" text-anchor="middle" font-family="Petit Formal Script, cursive" font-size="17" fill="#f2d98b">U&amp;D</text>
+        </svg>
+      </button>
+      <div class="cover-caption">Tap to begin our story</div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       1. BRIDE & GROOM
+       ============================================================ -->
+  <section class="scene" id="scene-couple">
+    <div class="scene-content couple-inner">
+      <div class="role-eyebrow reveal">The Groom</div>
+      <div class="person-name letters" id="groomName">Uma Maheswara Rao</div>
+      <div class="person-parents reveal" id="groomParents">Son of Sri Padala Manmada Rao &amp; Smt. Padala Vimala</div>
+      <p class="person-blurb reveal" id="groomBlurb">Warm-hearted and easygoing, Uma brings quiet steadiness and a ready smile to everyone around him.</p>
+
+      <div class="couple-amp reveal">&amp;</div>
+
+      <div class="role-eyebrow reveal">The Bride</div>
+      <div class="person-name letters" id="brideName">Divya Teja</div>
+      <div class="person-parents reveal" id="brideParents">Daughter of Sri Tamiri Yama Rao &amp; Smt. Tamiri Saraswathi</div>
+      <p class="person-blurb reveal" id="brideBlurb">Graceful and full of warmth, Divya lights up every gathering she's part of.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       3. HALDI & SANGEET (same day, back-to-back)
+       ============================================================ -->
+  <section class="scene" id="scene-haldi">
+    <div class="scene-content">
+      <div class="scene-kicker reveal">Where the celebrations begin</div>
+      <h2 class="scene-title reveal">Haldi &amp; Sangeet</h2>
+
+      <div class="dual-event" id="dualEventList">
+        <!-- Cards injected by script.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       4. SCRATCH TO REVEAL THE DATE
+       ============================================================ -->
+  <section id="scene-scratch">
+    <div class="scene-banner" aria-hidden="true"></div>
+    <div class="scene-body">
+      <div class="scene-kicker reveal">A little surprise</div>
+      <h2 class="scene-title reveal">Scratch to Reveal</h2>
+
+      <div class="scratch-wrap">
+        <div class="scratch-card" id="scratchCard">
+          <div class="scratch-reveal">
+            <div class="scratch-reveal-inner">
+              <div class="eyebrow">Save the Date</div>
+              <div class="big-date" id="scratchDate">30.08.2026</div>
+              <div class="venue-line" id="scratchVenue">Hyderabad, Telangana</div>
+            </div>
+          </div>
+          <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+        </div>
+        <div class="scratch-hint" id="scratchHint">Use your finger to scratch the card &#10022;</div>
+        <button class="btn-reset" id="scratchReset" type="button">Reset card</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       5. COUNTDOWN (plain vibrant gradient)
+       ============================================================ -->
+  <section id="scene-countdown">
+    <div class="scene-kicker reveal">Counting down to</div>
+    <h2 class="scene-title reveal">The Sacred Moment</h2>
+    <div class="countdown-grid" id="countdownGrid">
+      <div class="countdown-box">
+        <div class="countdown-num" id="cdDays">--</div>
+        <div class="countdown-label">Days</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cdHours">--</div>
+        <div class="countdown-label">Hours</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cdMinutes">--</div>
+        <div class="countdown-label">Mins</div>
+      </div>
+      <div class="countdown-box">
+        <div class="countdown-num" id="cdSeconds">--</div>
+        <div class="countdown-label">Secs</div>
+      </div>
+    </div>
+    <div class="countdown-venue" id="countdownVenue">Sumuhurtham &middot; 11:42 PM &middot; NRC Gardens</div>
+  </section>
+
+  <!-- ============================================================
+       6. MUHURTHAM — the formal invitation
+       ============================================================ -->
+  <section class="scene" id="scene-muhurtham">
+    <div class="scene-content">
+      <div class="scene-kicker reveal">The Sumuhurtham</div>
+      <h2 class="scene-title reveal">Wedding Invitation</h2>
+
+      <div class="formal-block reveal">
+        <p class="formal-line">We solicit your gracious presence with family &amp; friends on the auspicious occasion of the wedding of our beloved son</p>
+
+        <div class="formal-names">
+          <div class="fn-groom">Uma Maheswara Rao</div>
+          <span class="fn-with">with</span>
+          <div class="fn-bride">Divya Teja</div>
+          <div class="fn-parents">(Daughter of Sri Tamiri Yama Rao &amp; Smt. Tamiri Saraswathi)</div>
+        </div>
+
+        <div class="formal-muhurtham">
+          <div class="fm-label">Sumuhurtham</div>
+          <div class="fm-date">Sunday, 30th August 2026 &middot; 11:42 PM</div>
+          <div class="fm-lagnam">&ldquo;Vrushaba Lagnam&rdquo;</div>
+          <button class="btn-cal" id="btnAddMuhurtham" type="button">+ Add to calendar</button>
+        </div>
+
+        <div class="formal-invited">
+          <span class="fi-label">Invited by</span>
+          <div class="fi-names">Sri Padala Manmada Rao &amp; Smt. Padala Vimala</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       7. RECEPTION
+       ============================================================ -->
+  <section id="scene-reception">
+    <div class="scene-banner" aria-hidden="true"></div>
+    <div class="scene-body">
+      <div class="scene-kicker reveal">An evening to celebrate together</div>
+      <h2 class="scene-title reveal">Reception</h2>
+      <p class="reception-line reveal">Lights, laughter, and everyone we love in one room &mdash; come dressed to celebrate.</p>
+      <div class="reception-details reveal">
+        <div class="rd-time">Sunday, 30th August 2026 &middot; 7:00 PM onwards</div>
+        <div class="rd-venue">At the Venue &middot; NRC Gardens</div>
+        <button class="btn-cal on-dark" id="btnAddReception" type="button">+ Add to calendar</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       8. WELCOME NOTE
+       ============================================================ -->
+  <section id="note-section">
+    <div class="section-kicker reveal">A little note</div>
+    <h2 class="section-title reveal" style="margin-bottom: 22px;">For You</h2>
+    <div class="note-card reveal">
+      <div class="quote-mark">&ldquo;</div>
+      <p id="welcomeNote">Your presence is the greatest gift of all. We can't wait to celebrate this beautiful new beginning surrounded by the people who mean the most to us — welcome, and thank you for being here.</p>
+      <div class="note-sign">— With love</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       9. LOCATION / MAP
+       ============================================================ -->
+  <section class="section" id="location-section">
+    <div class="section-kicker reveal">Find your way</div>
+    <h2 class="section-title reveal">Venue Location</h2>
+
+    <div class="location-card reveal">
+      <iframe class="map-frame" id="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Venue location map"></iframe>
+      <div class="location-info">
+        <div class="location-venue" id="locationVenue">NRC Gardens</div>
+        <div class="location-address" id="locationAddress">No. 6-23/2, Pragathi Nagar, Moosapet, Hyderabad</div>
+        <a class="btn-directions" id="directionsLink" href="#" target="_blank" rel="noopener">Get Directions ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       10. CLOSING — With love
+       ============================================================ -->
+  <footer id="closing">
+    <div class="blob" aria-hidden="true"></div>
+    <div class="motif" aria-hidden="true">
+      <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="28" cy="28" r="26" stroke="#f2d98b" stroke-width="1.2"/>
+        <circle cx="28" cy="28" r="18" stroke="#f2d98b" stroke-width="1"/>
+        <circle cx="28" cy="28" r="3" fill="#f2d98b"/>
+      </svg>
+    </div>
+    <p class="blessing">With the blessings of our elders and the warmth of your presence, we begin our forever.</p>
+    <div class="with-love">With love,</div>
+    <div class="closing-groom" id="closingGroom">Uma Maheswara Rao</div>
+    <div class="closing-parents" id="closingParents">Son of Sri Padala Manmada Rao &amp; Smt. Padala Vimala</div>
+    <div class="made-with-love">Made with love</div>
+  </footer>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
