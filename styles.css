@@ -172,8 +172,7 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
 }
 @keyframes hint-fade { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
 
-/* ---- 2. Bride & groom — patterned gradient section, no photo ---- */
-/* AFTER */
+/* ---- 2. Bride & groom — gradient section with patterned cards ---- */
 #scene-couple {
   position: relative;
   padding: 40px 22px 42px;
@@ -185,12 +184,12 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
 }
 .couple-inner { position: relative; z-index: 2; text-align: center; }
 #scene-couple .ov-kicker { color: var(--gold-light); }
-#scene-couple .ov-heading { color: #fff; margin-bottom: 26px; }
+#scene-couple .ov-heading { color: #fff; margin-bottom: 20px; }
 
 .person-card {
   position: relative;
   border-radius: 20px;
-  padding: 30px 22px 24px;
+  padding: 22px 22px 20px;
   text-align: center;
   border: 1px solid rgba(242,217,139,0.42);
   box-shadow: 0 12px 34px rgba(0,0,0,0.24), inset 0 1px 0 rgba(255,255,255,0.14);
@@ -206,23 +205,21 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
 .groom-card { background: linear-gradient(150deg, rgba(255,255,255,0.16), rgba(255,255,255,0.05) 60%, rgba(242,217,139,0.12)); }
 .bride-card { background: linear-gradient(150deg, rgba(242,217,139,0.15), rgba(255,255,255,0.05) 55%, rgba(255,255,255,0.14)); }
 
-.pc-motif { width: 34px; height: 34px; margin: 0 auto 12px; opacity: 0.9; position: relative; z-index: 2; }
+.pc-motif { width: 26px; height: 26px; margin: 0 auto 8px; opacity: 0.9; position: relative; z-index: 2; }
 .pc-role { font-family: var(--font-script); font-size: clamp(15px, 4.3vw, 19px); color: var(--gold-light); position: relative; z-index: 2; }
 .pc-name { font-family: var(--font-display); font-size: clamp(23px, 6.6vw, 30px); font-weight: 600; color: #fff; line-height: 1.2; margin-top: 2px; position: relative; z-index: 2; }
 .pc-parents { font-size: clamp(9px, 2.6vw, 11px); color: var(--on-dark); opacity: 0.86; margin-top: 7px; line-height: 1.5; position: relative; z-index: 2; }
-.pc-desc { font-size: clamp(10.5px, 3vw, 12.5px); line-height: 1.6; color: var(--on-dark); opacity: 0.94; margin-top: 11px; position: relative; z-index: 2; }
 
-.couple-amp { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 20px 0; position: relative; z-index: 2; }
+.couple-amp { display: flex; align-items: center; justify-content: center; gap: 14px; margin: 14px 0; position: relative; z-index: 2; }
 .couple-amp .ca-line { height: 1px; width: 58px; background: linear-gradient(90deg, transparent, var(--gold-light)); }
 .couple-amp .ca-line:last-child { background: linear-gradient(90deg, var(--gold-light), transparent); }
 .couple-amp .ca-mark { font-family: var(--font-script); font-size: clamp(24px, 7vw, 30px); color: var(--gold-light); }
 
 /* ---- 3. Events: Haldi & Sangeet, two columns in the top band ---- */
 .events-lead { background: #fdf3e6; padding: 30px 24px 14px; text-align: center; position: relative; z-index: 6; }
-.ov-haldi { top: 6%; padding: 0 6%; }
-.ev-pair { display: flex; gap: 5%; align-items: flex-start; }
+.ov-haldi { top: 4%; padding: 0 5%; }
+.ev-pair { display: flex; gap: 3%; align-items: flex-start; }
 .ev-col { flex: 1; text-align: center; }
-/* AFTER */
 .oe-name { font-family: var(--font-display); font-size: clamp(20px, 5.8vw, 27px); font-weight: 600; color: var(--maroon); line-height: 1.15; }
 .oe-time { font-size: clamp(10px, 2.9vw, 12.5px); color: var(--ink-soft); margin-top: 4px; line-height: 1.4; }
 .oe-line { font-size: clamp(9.5px, 2.7vw, 11.5px); font-style: italic; color: var(--marigold-deep); margin-top: 6px; line-height: 1.45; }
@@ -258,7 +255,7 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
 }
 .scratch-hint.done { color: var(--maroon); font-weight: 600; animation: none; opacity: 1; }
 
-/* ---- 6. Muhurtham, inside baraat artwork's blank top ---- */
+/* ---- 5. Muhurtham, inside baraat artwork's blank top ---- */
 .ov-muhurtham { top: 3.5%; padding: 0 11%; }
 .ov-muhurtham .ov-kicker { font-family: var(--font-body); font-size: clamp(8.5px, 2.4vw, 10.5px); letter-spacing: 2px; text-transform: uppercase; color: var(--teal); }
 .fm-line { font-size: clamp(10px, 2.8vw, 12px); color: var(--ink); line-height: 1.65; margin-top: 9px; }
@@ -272,9 +269,8 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
 .fm-invited { margin-top: 13px; font-family: var(--font-display); font-size: clamp(12px, 3.4vw, 15px); color: var(--ink); line-height: 1.45; }
 .fi-label { display: block; font-family: var(--font-script); font-size: clamp(12px, 3.4vw, 15px); color: var(--gold-dim); margin-bottom: 2px; }
 
-/* ---- Reception: centred in its open area ---- */
-/* AFTER */
-.ov-reception { top: 30%; left: 18%; right: 44%; padding: 0; text-align: center; }
+/* ---- 6. Reception: centred in its open area ---- */
+.ov-reception { top: 26%; left: 18%; right: 44%; padding: 0; text-align: center; }
 .ov-reception .oe-name { font-size: clamp(21px, 6.2vw, 28px); }
 .ov-reception .oe-time { font-size: clamp(11px, 3.1vw, 13.5px); margin-top: 5px; }
 .ov-reception .oe-line { font-size: clamp(10px, 2.9vw, 12.5px); margin-top: 8px; }
@@ -311,14 +307,16 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
 
 /* Bright golds where both neighbours are light; deeper tones where
    one side is dark, so the change always reads clearly. */
-.divider.blend-a { --dv-a: #e8952f; --dv-b: #f7d071; }  /* intro → couple (light/light) */
-.divider.blend-b { --dv-a: #0b6b6f; --dv-b: #4fb3ab; }  /* couple(teal) → scratch */
+.divider.blend-a { --dv-a: #e8952f; --dv-b: #f7d071; }  /* intro → couple */
+.divider.blend-b { --dv-a: #c9871f; --dv-b: #f7d071; }  /* couple(teal) → scratch(cream) */
 .divider.blend-c { --dv-a: #8d3a1c; --dv-b: #d9a637; }  /* scratch → countdown(dark) */
 .divider.blend-d { --dv-a: #c96f1c; --dv-b: #f2c877; }  /* countdown(dark) → invitation */
 .divider.blend-e { --dv-a: #c23a5c; --dv-b: #f0919f; }  /* invitation → events */
 .divider.blend-f { --dv-a: #d9a637; --dv-b: #f7e3a8; }  /* events → note */
 .divider.blend-g { --dv-a: #c96f1c; --dv-b: #f4c37a; }  /* note(marigold) → map */
 .divider.blend-h { --dv-a: #013f45; --dv-b: #4fb3ab; }  /* map → closing(teal) */
+
+/* Slim divider used between the two event scenes */
 .divider.thin { height: 7px; }
 .divider.thin .d-line { left: 26%; right: 26%; height: 1px; }
 .divider.blend-events { --dv-a: #e8952f; --dv-b: #f9dda2; }
@@ -420,9 +418,6 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
   100% { transform: translate(var(--bx, 0px), var(--by, 300px)) rotate(var(--spin, 480deg)) scale(1); opacity: 0; }
 }
 
-@media (min-width: 560px) {
-  .page { border-left: 1px solid rgba(0,0,0,0.05); border-right: 1px solid rgba(0,0,0,0.05); }
-}
 /* ============================================================
    MUSIC TOGGLE
    ============================================================ */
@@ -443,3 +438,7 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
 .music-toggle:hover { transform: scale(1.08); }
 .music-toggle.muted { opacity: 0.55; }
 .music-toggle.muted .mt-on { opacity: 0.5; }
+
+@media (min-width: 560px) {
+  .page { border-left: 1px solid rgba(0,0,0,0.05); border-right: 1px solid rgba(0,0,0,0.05); }
+}
