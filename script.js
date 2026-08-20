@@ -4,13 +4,11 @@
 const CONFIG = {
   groom: {
     name: "Uma Maheswara Rao",
-    parents: "Son of Sri Padala Manmada Rao & Smt. Padala Vimala",
-    blurb: "Warm-hearted and easygoing, with a ready smile for everyone."
+    parents: "Son of Sri Padala Manmada Rao & Smt. Padala Vimala"
   },
   bride: {
     name: "Divya Teja",
-    parents: "Daughter of Sri Tamiri Yama Rao & Smt. Tamiri Saraswathi",
-    blurb: "Graceful and full of warmth, she lights up every gathering."
+    parents: "Daughter of Sri Tamiri Yama Rao & Smt. Tamiri Saraswathi"
   },
 
   // Countdown target — the Sumuhurtham moment
@@ -42,18 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // date is scratched. See unlockContent().
 });
 
+/* Every lookup is guarded, so removing an element from the HTML
+   can never throw and break the rest of the page. */
 function applyConfigText() {
-  document.getElementById("groomName").textContent = CONFIG.groom.name;
-  document.getElementById("groomParents").textContent = CONFIG.groom.parents;
-  document.getElementById("groomBlurb").textContent = CONFIG.groom.blurb;
-  document.getElementById("brideName").textContent = CONFIG.bride.name;
-  document.getElementById("brideParents").textContent = CONFIG.bride.parents;
-  document.getElementById("brideBlurb").textContent = CONFIG.bride.blurb;
-  document.getElementById("scratchDate").textContent = CONFIG.saveTheDate;
-  document.getElementById("scratchVenue").textContent = CONFIG.venueShort;
-  document.getElementById("welcomeNote").textContent = CONFIG.welcomeNote;
-  document.getElementById("closingGroom").textContent = CONFIG.groom.name;
-  document.getElementById("closingParents").textContent = CONFIG.groom.parents;
+  const set = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
+  set("groomName", CONFIG.groom.name);
+  set("groomParents", CONFIG.groom.parents);
+  set("brideName", CONFIG.bride.name);
+  set("brideParents", CONFIG.bride.parents);
+  set("scratchDate", CONFIG.saveTheDate);
+  set("scratchVenue", CONFIG.venueShort);
+  set("welcomeNote", CONFIG.welcomeNote);
+  set("closingGroom", CONFIG.groom.name);
+  set("closingParents", CONFIG.groom.parents);
 }
 
 /* ============================================================
@@ -61,6 +64,9 @@ function applyConfigText() {
    ============================================================ */
 function initLetterReveal() {
   document.querySelectorAll(".letters").forEach((el) => {
+    if (el.dataset.split === "1") return;   // never split the same element twice
+    el.dataset.split = "1";
+
     if (el.querySelector(".amp")) {
       wrapLettersPreservingAmp(el);
     } else {
@@ -113,46 +119,38 @@ function initScrollReveal() {
       }
     });
   }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
-  document.querySelectorAll(".reveal, .letters").forEach((el) => io.observe(el));
+
+  document.querySelectorAll(".reveal, .letters").forEach((el) => {
+    if (!el.classList.contains("in-view")) io.observe(el);
+  });
 }
 
 /* ============================================================
-   CONFETTI — rose petals, jasmine, gold & green leaves
-   Behaviour: one burst when the cover button is tapped, then
-   nothing. After the date is scratched: another burst, and
-   from that point on the ambient fall runs continuously.
+   CONFETTI — small, colourful five-petal flowers.
+   One popper burst when the cover heart is tapped. After the
+   date is scratched: another burst, then a continuous ambient
+   fall from that point on.
    ============================================================ */
-const ROSE_COLORS = ["#c23a5c", "#e0466a", "#f2465e", "#a3313f"];
-const LEAF_COLORS = ["#3f8f5c", "#5aa66d", "#d9a637", "#c96f1c"];
+const FLOWER_COLORS = [
+  "#f2465e", "#ff6b8a", "#ffa62b", "#ffd93d", "#7ed957",
+  "#3fb8af", "#4d96ff", "#b06bff", "#ff8fc8", "#ff4d4d",
+  "#00c9a7", "#ffb703"
+];
+const FLOWER_CENTERS = ["#ffe066", "#fff3b0", "#ffd93d"];
+
 let ambientStarted = false;
 
-function rosePetalSVG(color) {
-  return `<svg viewBox="0 0 20 26" xmlns="http://www.w3.org/2000/svg">
-    <path d="M10 0 C18 6 18 18 10 26 C2 18 2 6 10 0 Z" fill="${color}" opacity="0.92"/>
-    <path d="M10 3 C15 8 15 17 10 23" stroke="rgba(255,255,255,0.25)" stroke-width="1" fill="none"/>
-  </svg>`;
+function flowerSVG(color) {
+  const center = FLOWER_CENTERS[Math.floor(Math.random() * FLOWER_CENTERS.length)];
+  let petals = "";
+  for (let i = 0; i < 5; i++) {
+    petals += `<ellipse cx="10" cy="4.4" rx="3.1" ry="4.4" fill="${color}" transform="rotate(${i * 72} 10 10)"/>`;
+  }
+  return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">${petals}<circle cx="10" cy="10" r="2.3" fill="${center}"/></svg>`;
 }
-function jasmineSVG() {
-  return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#fffdf8" stroke="#f0e6d2" stroke-width="0.6">
-      <circle cx="10" cy="5" r="3.2"/><circle cx="15" cy="10" r="3.2"/>
-      <circle cx="10" cy="15" r="3.2"/><circle cx="5" cy="10" r="3.2"/>
-      <circle cx="10" cy="10" r="3.2"/>
-    </g>
-    <circle cx="10" cy="10" r="2" fill="#f2c94c"/>
-  </svg>`;
-}
-function leafSVG(color) {
-  return `<svg viewBox="0 0 14 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M7 0 C14 6 14 18 7 24 C0 18 0 6 7 0 Z" fill="${color}" opacity="0.9"/>
-    <line x1="7" y1="2" x2="7" y2="22" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-  </svg>`;
-}
+
 function randomPiece() {
-  const roll = Math.random();
-  if (roll < 0.4) return rosePetalSVG(ROSE_COLORS[Math.floor(Math.random() * ROSE_COLORS.length)]);
-  if (roll < 0.7) return jasmineSVG();
-  return leafSVG(LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)]);
+  return flowerSVG(FLOWER_COLORS[Math.floor(Math.random() * FLOWER_COLORS.length)]);
 }
 
 function spawnConfettiBurst(count = 28) {
@@ -162,15 +160,21 @@ function spawnConfettiBurst(count = 28) {
     const piece = document.createElement("div");
     piece.className = "confetti-piece burst";
     piece.innerHTML = randomPiece();
-    const size = 11 + Math.random() * 15;
-    piece.style.left = (38 + Math.random() * 24) + "%";
-    piece.style.top = "18%";
+
+    const size = 7 + Math.random() * 7;
     piece.style.width = size + "px";
     piece.style.height = size + "px";
     piece.style.animationDelay = (Math.random() * 0.2) + "s";
-    piece.style.setProperty("--bx", (Math.random() * 300 - 150) + "px");
-    piece.style.setProperty("--by", (240 + Math.random() * 260) + "px");
+
+    // fire outward from a tight point in every direction, then fall
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 90 + Math.random() * 300;
+    piece.style.left = (46 + Math.random() * 8) + "%";
+    piece.style.top = "40%";
+    piece.style.setProperty("--bx", Math.cos(angle) * dist + "px");
+    piece.style.setProperty("--by", (Math.sin(angle) * dist + 260) + "px");
     piece.style.setProperty("--spin", (Math.random() > 0.5 ? 1 : -1) * (300 + Math.random() * 400) + "deg");
+
     layer.appendChild(piece);
     setTimeout(() => piece.remove(), 2300);
   }
@@ -185,7 +189,8 @@ function startAmbientConfetti(count = 34) {
     const piece = document.createElement("div");
     piece.className = "confetti-piece ambient";
     piece.innerHTML = randomPiece();
-    const size = 11 + Math.random() * 13;
+
+    const size = 8 + Math.random() * 7;
     piece.style.left = (Math.random() * 100) + "%";
     piece.style.width = size + "px";
     piece.style.height = size + "px";
@@ -212,7 +217,8 @@ function setupTapButton() {
   button.addEventListener("click", () => {
     if (scene.classList.contains("opened")) return;
     scene.classList.add("opened");
-    spawnConfettiBurst(34);
+    spawnConfettiBurst(160);
+    startMusic();
     if (after) after.classList.add("unlocked");
     document.body.style.overflow = "auto";
     // let the reveal settle before the eye is drawn onward
@@ -220,6 +226,50 @@ function setupTapButton() {
       document.querySelectorAll(".ov-intro .letters").forEach((el) => el.classList.add("in-view"));
     }, 300);
   });
+}
+
+/* ============================================================
+   BACKGROUND MUSIC — starts on the first tap. Browsers block
+   autoplay until the user interacts, and the tap satisfies that.
+   ============================================================ */
+function startMusic() {
+  const audio = document.getElementById("bgMusic");
+  const toggle = document.getElementById("musicToggle");
+  if (!audio) return;
+
+  audio.volume = 0;
+  const attempt = audio.play();
+
+  if (attempt && typeof attempt.then === "function") {
+    attempt.then(() => {
+      if (toggle) toggle.hidden = false;
+      let v = 0;
+      const fade = setInterval(() => {
+        v += 0.02;
+        if (v >= 0.35) { v = 0.35; clearInterval(fade); }
+        audio.volume = v;
+      }, 120);
+    }).catch(() => {
+      // some browsers still refuse — show the button so it can be started by hand
+      if (toggle) { toggle.hidden = false; toggle.classList.add("muted"); }
+    });
+  } else if (toggle) {
+    toggle.hidden = false;
+  }
+
+  if (toggle && !toggle.dataset.bound) {
+    toggle.dataset.bound = "1";
+    toggle.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.volume = 0.35;
+        audio.play();
+        toggle.classList.remove("muted");
+      } else {
+        audio.pause();
+        toggle.classList.add("muted");
+      }
+    });
+  }
 }
 
 /* ============================================================
@@ -287,8 +337,10 @@ function setupScratchCard() {
       canvas.style.transition = "opacity 0.5s ease";
       canvas.style.opacity = "0";
       setTimeout(() => { canvas.style.display = "none"; }, 500);
-      hint.textContent = "Revealed — scroll on ✦";
-      hint.classList.add("done");
+      if (hint) {
+        hint.textContent = "Revealed — scroll on ✦";
+        hint.classList.add("done");
+      }
       unlockContent();
     }
   }
@@ -313,10 +365,16 @@ function unlockContent() {
   const locked = document.getElementById("lockedContent");
   if (!locked) return;
   locked.classList.add("unlocked");
-  spawnConfettiBurst(26);
+  spawnConfettiBurst(180);
   startAmbientConfetti();
   // re-observe newly visible elements so their reveals fire
   setTimeout(initScrollReveal, 100);
+
+  // Nudge the page so the next section peeks into view — makes it
+  // obvious there's more below, without yanking them off the reveal
+  setTimeout(() => {
+    window.scrollBy({ top: 260, behavior: "smooth" });
+  }, 1100);
 }
 
 /* ============================================================
@@ -328,7 +386,7 @@ function setupCountdown() {
   const h = document.getElementById("cdHours");
   const m = document.getElementById("cdMinutes");
   const s = document.getElementById("cdSeconds");
-  if (!d) return;
+  if (!d || !h || !m || !s) return;
 
   function tick() {
     let diff = Math.max(0, target - Date.now());
@@ -351,9 +409,14 @@ function setupCountdown() {
 function renderLocation() {
   const mapFrame = document.getElementById("mapFrame");
   if (!mapFrame) return;
+
   const q = encodeURIComponent(CONFIG.location.mapQuery);
   mapFrame.src = `https://www.google.com/maps?q=${q}&output=embed`;
-  document.getElementById("locationVenue").textContent = CONFIG.location.venueName;
-  document.getElementById("locationAddress").textContent = CONFIG.location.address;
-  document.getElementById("directionsLink").href = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
+
+  const venue = document.getElementById("locationVenue");
+  const address = document.getElementById("locationAddress");
+  const directions = document.getElementById("directionsLink");
+  if (venue) venue.textContent = CONFIG.location.venueName;
+  if (address) address.textContent = CONFIG.location.address;
+  if (directions) directions.href = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
 }
