@@ -423,3 +423,23 @@ button, a.btn { font-family: inherit; cursor: pointer; border: none; background:
 @media (min-width: 560px) {
   .page { border-left: 1px solid rgba(0,0,0,0.05); border-right: 1px solid rgba(0,0,0,0.05); }
 }
+/* ============================================================
+   MUSIC TOGGLE
+   ============================================================ */
+.music-toggle {
+  position: fixed;
+  bottom: 18px; right: 18px;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--grad-maroon);
+  color: var(--gold-light);
+  font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.3);
+  border: 1px solid rgba(242,217,139,0.5);
+  z-index: 60;
+  transition: transform 0.2s ease, opacity 0.3s ease;
+}
+.music-toggle:hover { transform: scale(1.08); }
+.music-toggle.muted { opacity: 0.55; }
+.music-toggle.muted .mt-on { opacity: 0.5; }
