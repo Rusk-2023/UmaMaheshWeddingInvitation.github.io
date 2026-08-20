@@ -127,36 +127,28 @@ function initScrollReveal() {
    nothing. After the date is scratched: another burst, and
    from that point on the ambient fall runs continuously.
    ============================================================ */
-const ROSE_COLORS = ["#c23a5c", "#e0466a", "#f2465e", "#a3313f"];
-const LEAF_COLORS = ["#3f8f5c", "#5aa66d", "#77bd83", "#2e7048", "#d9a637", "#c96f1c", "#e8b84b", "#8fae4a"];let ambientStarted = false;
+const FLOWER_COLORS = [
+  "#f2465e", "#ff6b8a", "#ffa62b", "#ffd93d", "#7ed957",
+  "#3fb8af", "#4d96ff", "#b06bff", "#ff8fc8", "#ff4d4d",
+  "#00c9a7", "#ffb703"
+];
 
-function rosePetalSVG(color) {
-  return `<svg viewBox="0 0 20 26" xmlns="http://www.w3.org/2000/svg">
-    <path d="M10 0 C18 6 18 18 10 26 C2 18 2 6 10 0 Z" fill="${color}" opacity="0.92"/>
-    <path d="M10 3 C15 8 15 17 10 23" stroke="rgba(255,255,255,0.25)" stroke-width="1" fill="none"/>
-  </svg>`;
-}
-function jasmineSVG() {
+function flowerSVG(color) {
+  const centers = ["#ffe066", "#fff3b0", "#ffd93d"];
+  const center = centers[Math.floor(Math.random() * centers.length)];
+  // five petals at 72° apart
+  let petals = "";
+  for (let i = 0; i < 5; i++) {
+    petals += `<ellipse cx="10" cy="4.4" rx="3.1" ry="4.4" fill="${color}"
+                 transform="rotate(${i * 72} 10 10)"/>`;
+  }
   return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    <g fill="#fffdf8" stroke="#f0e6d2" stroke-width="0.6">
-      <circle cx="10" cy="5" r="3.2"/><circle cx="15" cy="10" r="3.2"/>
-      <circle cx="10" cy="15" r="3.2"/><circle cx="5" cy="10" r="3.2"/>
-      <circle cx="10" cy="10" r="3.2"/>
-    </g>
-    <circle cx="10" cy="10" r="2" fill="#f2c94c"/>
-  </svg>`;
-}
-function leafSVG(color) {
-  return `<svg viewBox="0 0 14 24" xmlns="http://www.w3.org/2000/svg">
-    <path d="M7 0 C14 6 14 18 7 24 C0 18 0 6 7 0 Z" fill="${color}" opacity="0.9"/>
-    <line x1="7" y1="2" x2="7" y2="22" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
+    ${petals}
+    <circle cx="10" cy="10" r="2.3" fill="${center}"/>
   </svg>`;
 }
 function randomPiece() {
-  const roll = Math.random();
-  if (roll < 0.55) return leafSVG(LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)]);
-  if (roll < 0.80) return rosePetalSVG(ROSE_COLORS[Math.floor(Math.random() * ROSE_COLORS.length)]);
-  return jasmineSVG();
+  return flowerSVG(FLOWER_COLORS[Math.floor(Math.random() * FLOWER_COLORS.length)]);
 }
 
 function spawnConfettiBurst(count = 28) {
@@ -166,18 +158,20 @@ function spawnConfettiBurst(count = 28) {
     const piece = document.createElement("div");
     piece.className = "confetti-piece burst";
     piece.innerHTML = randomPiece();
-    const size = 11 + Math.random() * 15;
-    piece.style.top = "18%";
+
+    const size = 7 + Math.random() * 7;
     piece.style.width = size + "px";
     piece.style.height = size + "px";
     piece.style.animationDelay = (Math.random() * 0.2) + "s";
-	
-piece.style.left = (20 + Math.random() * 60) + "%";
-piece.style.setProperty("--bx", (Math.random() * 460 - 230) + "px");
-piece.style.setProperty("--by", (220 + Math.random() * 420) + "px");
-    piece.style.setProperty("--bx", (Math.random() * 300 - 150) + "px");
-    piece.style.setProperty("--by", (240 + Math.random() * 260) + "px");
+
+    const angle = Math.random() * Math.PI * 2;
+    const dist = 90 + Math.random() * 300;
+    piece.style.left = (46 + Math.random() * 8) + "%";
+    piece.style.top = "40%";
+    piece.style.setProperty("--bx", Math.cos(angle) * dist + "px");
+    piece.style.setProperty("--by", (Math.sin(angle) * dist + 260) + "px");
     piece.style.setProperty("--spin", (Math.random() > 0.5 ? 1 : -1) * (300 + Math.random() * 400) + "deg");
+
     layer.appendChild(piece);
     setTimeout(() => piece.remove(), 2300);
   }
@@ -192,7 +186,7 @@ function startAmbientConfetti(count = 34) {
     const piece = document.createElement("div");
     piece.className = "confetti-piece ambient";
     piece.innerHTML = randomPiece();
-    const size = 11 + Math.random() * 13;
+const size = 8 + Math.random() * 7;
     piece.style.left = (Math.random() * 100) + "%";
     piece.style.width = size + "px";
     piece.style.height = size + "px";
