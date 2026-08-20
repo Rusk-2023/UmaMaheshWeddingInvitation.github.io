@@ -211,20 +211,57 @@ function setupTapButton() {
   const after = document.getElementById("afterCover");
   if (!button || !scene) return;
 
-  // Nothing below the cover is reachable until the heart is tapped
   document.body.style.overflow = "hidden";
 
   button.addEventListener("click", () => {
     if (scene.classList.contains("opened")) return;
     scene.classList.add("opened");
     spawnConfettiBurst(34);
+    startMusic();
     if (after) after.classList.add("unlocked");
     document.body.style.overflow = "auto";
-    // let the reveal settle before the eye is drawn onward
     setTimeout(() => {
       document.querySelectorAll(".ov-intro .letters").forEach((el) => el.classList.add("in-view"));
     }, 300);
   });
+}
+
+/* ============================================================
+   BACKGROUND MUSIC — starts on the first tap (browsers block
+   autoplay until the user interacts, which the tap satisfies)
+   ============================================================ */
+function startMusic() {
+  const audio = document.getElementById("bgMusic");
+  const toggle = document.getElementById("musicToggle");
+  if (!audio) return;
+
+  audio.volume = 0;
+  audio.play().then(() => {
+    if (toggle) toggle.hidden = false;
+    // fade in gently so it doesn't jolt anyone
+    let v = 0;
+    const fade = setInterval(() => {
+      v += 0.02;
+      if (v >= 0.35) { v = 0.35; clearInterval(fade); }
+      audio.volume = v;
+    }, 120);
+  }).catch(() => {
+    // some browsers still refuse — show the button so it can be started manually
+    if (toggle) toggle.hidden = false;
+  });
+
+  if (toggle && !toggle.dataset.bound) {
+    toggle.dataset.bound = "1";
+    toggle.addEventListener("click", () => {
+      if (audio.paused) {
+        audio.play();
+        toggle.classList.remove("muted");
+      } else {
+        audio.pause();
+        toggle.classList.add("muted");
+      }
+    });
+  }
 }
 
 /* ============================================================
@@ -320,8 +357,13 @@ function unlockContent() {
   locked.classList.add("unlocked");
   spawnConfettiBurst(26);
   startAmbientConfetti();
-  // re-observe newly visible elements so their reveals fire
   setTimeout(initScrollReveal, 100);
+
+  // Nudge the page so the next section peeks into view — makes it
+  // obvious there's more below without yanking them away from the reveal
+  setTimeout(() => {
+    window.scrollBy({ top: 260, behavior: "smooth" });
+  }, 1100);
 }
 
 /* ============================================================
