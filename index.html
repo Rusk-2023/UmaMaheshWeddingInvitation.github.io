@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Uma &amp; Divya — Wedding Invitation</title>
+<meta name="description" content="You are warmly invited to the wedding of Uma Maheswara Rao and Divya Teja.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="page" id="page">
+
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+
+  <audio id="bgMusic" src="assets/music.mp3" loop preload="auto"></audio>
+
+  <button id="musicToggle" class="music-toggle" type="button" aria-label="Toggle music" hidden>
+    <span class="mt-on">&#9834;</span>
+  </button>
+
+  <!-- ============================================================
+       1. INTRO / COVER
+       ============================================================ -->
+  <section class="photo-scene" id="scene-intro">
+    <img class="scene-img" src="assets/intro-couple-temple.jpg" alt="Uma and Divya" />
+
+    <div class="cover-gate" id="coverGate">
+      <button class="tap-button" id="tapButton" type="button" aria-label="Open the invitation">
+        <svg viewBox="0 0 100 92" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="heartGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#7a1520"/>
+              <stop offset="55%" stop-color="#4a0a10"/>
+              <stop offset="100%" stop-color="#7a1520"/>
+            </linearGradient>
+          </defs>
+          <path d="M50 88 C50 88 6 60 6 32 C6 16 18 6 31 6 C40 6 47 11 50 17 C53 11 60 6 69 6 C82 6 94 16 94 32 C94 60 50 88 50 88 Z"
+                fill="url(#heartGrad)" stroke="#f2d98b" stroke-width="2.5"/>
+          <path d="M50 80 C50 80 14 57 14 33 C14 20 23 13 32 13 C40 13 46 18 50 24"
+                fill="none" stroke="rgba(242,217,139,0.35)" stroke-width="1.4"/>
+          <text x="50" y="46" text-anchor="middle" font-family="Petit Formal Script, cursive" font-size="20" fill="#f2d98b">U&amp;D</text>
+          <text x="50" y="62" text-anchor="middle" font-family="Poppins, sans-serif" font-size="8" letter-spacing="1.6" fill="#f2d98b" opacity="0.85">TAP</text>
+        </svg>
+      </button>
+      <div class="ov-caption">Tap to open our invitation</div>
+    </div>
+
+    <div class="scene-overlay ov-intro">
+      <div class="ov-eyebrow">Shrirasthu &middot; Shubhamasthu &middot; Avignamasthu</div>
+      <div class="ov-title">Padala&rsquo;s Wedding Invitation</div>
+      <div class="ov-names letters" id="introNames">Uma <span class="amp">&amp;</span> Divya</div>
+      <p class="ov-blurb">Two families, one beautiful beginning &mdash; you&rsquo;re warmly invited to be part of it.</p>
+    </div>
+  </section>
+
+  <div id="afterCover" class="cover-locked">
+
+    <div class="divider blend-a" aria-hidden="true"><span class="d-line"></span></div>
+
+    <!-- ============================================================
+         2. BRIDE & GROOM
+         ============================================================ -->
+    <section id="scene-couple">
+      <div class="couple-inner">
+        <div class="ov-kicker reveal">With the blessings of both families</div>
+        <h2 class="ov-heading reveal">The Bride &amp; Groom</h2>
+
+        <div class="person-card groom-card reveal">
+          <div class="pc-motif" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="18" stroke="#f2d98b" stroke-width="1"/>
+              <circle cx="20" cy="20" r="12" stroke="#f2d98b" stroke-width="0.7"/>
+              <circle cx="20" cy="20" r="2.5" fill="#f2d98b"/>
+            </svg>
+          </div>
+          <div class="pc-role">The Groom</div>
+          <div class="pc-name letters" id="groomName">Uma Maheswara Rao</div>
+          <div class="pc-parents" id="groomParents">Son of Sri Padala Manmada Rao &amp; Smt. Padala Vimala</div>
+        </div>
+
+        <div class="couple-amp reveal" aria-hidden="true">
+          <span class="ca-line"></span><span class="ca-mark">&amp;</span><span class="ca-line"></span>
+        </div>
+
+        <div class="person-card bride-card reveal">
+          <div class="pc-motif" aria-hidden="true">
+            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="20" cy="20" r="18" stroke="#f2d98b" stroke-width="1"/>
+              <circle cx="20" cy="20" r="12" stroke="#f2d98b" stroke-width="0.7"/>
+              <circle cx="20" cy="20" r="2.5" fill="#f2d98b"/>
+            </svg>
+          </div>
+          <div class="pc-role">The Bride</div>
+          <div class="pc-name letters" id="brideName">Divya Teja</div>
+          <div class="pc-parents" id="brideParents">Daughter of Sri Tamiri Yama Rao &amp; Smt. Tamiri Saraswathi</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider blend-b" aria-hidden="true"><span class="d-line"></span></div>
+
+    <!-- ============================================================
+         3. SCRATCH TO REVEAL
+         ============================================================ -->
+    <section class="photo-scene" id="scene-scratch">
+      <img class="scene-img" src="assets/scratch-elephants.jpg" alt="" />
+      <div class="scene-overlay ov-scratch">
+        <div class="ov-kicker reveal">A little surprise</div>
+        <h2 class="ov-heading reveal">Scratch to reveal our date</h2>
+        <div class="scratch-bar" id="scratchCard">
+          <div class="scratch-reveal">
+            <span class="sr-date" id="scratchDate">30 . 08 . 2026</span>
+            <span class="sr-venue" id="scratchVenue">NRC Gardens, Hyderabad</span>
+          </div>
+          <canvas class="scratch-canvas" id="scratchCanvas"></canvas>
+        </div>
+        <div class="scratch-hint" id="scratchHint">Scratch the bar to continue &#10022;</div>
+      </div>
+    </section>
+
+    <div id="lockedContent" class="locked">
+
+      <div class="divider blend-c" aria-hidden="true"><span class="d-line"></span></div>
+
+      <!-- ========================================================
+           4. COUNTDOWN
+           ======================================================== -->
+      <section id="scene-countdown">
+        <div class="ov-kicker reveal">Counting down to</div>
+        <h2 class="ov-heading reveal">The Sacred Moment</h2>
+        <div class="countdown-grid">
+          <div class="countdown-box"><div class="countdown-num" id="cdDays">--</div><div class="countdown-label">Days</div></div>
+          <div class="countdown-box"><div class="countdown-num" id="cdHours">--</div><div class="countdown-label">Hours</div></div>
+          <div class="countdown-box"><div class="countdown-num" id="cdMinutes">--</div><div class="countdown-label">Mins</div></div>
+          <div class="countdown-box"><div class="countdown-num" id="cdSeconds">--</div><div class="countdown-label">Secs</div></div>
+        </div>
+        <div class="countdown-venue">Sumuhurtham &middot; 11:42 PM &middot; NRC Gardens</div>
+      </section>
+
+      <div class="divider blend-d" aria-hidden="true"><span class="d-line"></span></div>
+
+      <!-- ========================================================
+           5. THE INVITATION
+           ======================================================== -->
+      <section class="photo-scene" id="scene-muhurtham">
+        <img class="scene-img" src="assets/muhurtham-baraat.jpg" alt="" />
+        <div class="scene-overlay ov-muhurtham">
+          <div class="ov-kicker reveal">The Sumuhurtham</div>
+          <h2 class="ov-heading reveal">Wedding Invitation</h2>
+          <p class="fm-line reveal">We solicit your gracious presence with family &amp; friends on the auspicious occasion of the wedding of our beloved son</p>
+          <div class="fm-groom reveal">Uma Maheswara Rao</div>
+          <div class="fm-with reveal">with</div>
+          <div class="fm-bride reveal">Divya Teja</div>
+          <div class="fm-sub reveal">Daughter of Sri Tamiri Yama Rao &amp; Smt. Tamiri Saraswathi</div>
+          <div class="fm-when reveal">
+            <span class="fm-label">Sumuhurtham</span>
+            Sunday, 30th August 2026 &middot; 11:42 PM
+            <span class="fm-lagnam">&ldquo;Vrushaba Lagnam&rdquo;</span>
+          </div>
+          <div class="fm-invited reveal">
+            <span class="fi-label">Invited by</span>
+            Sri Padala Manmada Rao &amp; Smt. Padala Vimala
+          </div>
+        </div>
+      </section>
+
+      <div class="divider blend-e" aria-hidden="true"><span class="d-line"></span></div>
+
+      <!-- ========================================================
+           6. EVENTS — Haldi, Sangeet, Reception
+           ======================================================== -->
+      <div class="events-lead">
+        <div class="ov-kicker reveal">Join us for</div>
+        <h2 class="ov-heading reveal">The Celebrations</h2>
+      </div>
+
+      <section class="photo-scene" id="scene-haldi">
+        <img class="scene-img" src="assets/haldi-sangeet.jpg" alt="" />
+        <div class="scene-overlay ov-haldi">
+          <div class="ev-pair">
+            <div class="ev-col reveal">
+              <div class="oe-name">Haldi</div>
+              <div class="oe-time">Sat, 29 Aug 2026<br>10:00 AM</div>
+              <div class="oe-line">Turmeric, giggles and the first blessings.</div>
+            </div>
+            <div class="ev-col reveal">
+              <div class="oe-name">Sangeet</div>
+              <div class="oe-time">Sat, 29 Aug 2026<br>6:00 PM</div>
+              <div class="oe-line">Dancing shoes on &mdash; the whole family&rsquo;s in.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider thin blend-events" aria-hidden="true"><span class="d-line"></span></div>
+
+      <section class="photo-scene" id="scene-reception">
+        <img class="scene-img" src="assets/reception-couple.jpg" alt="" />
+        <div class="scene-overlay ov-reception">
+          <div class="oe-name reveal">Reception</div>
+          <div class="oe-time reveal">Sun, 30 Aug 2026<br>7:00 PM onwards</div>
+          <div class="oe-line reveal">An evening of lights and laughter at NRC Gardens.</div>
+        </div>
+      </section>
+
+      <div class="divider blend-f" aria-hidden="true"><span class="d-line"></span></div>
+
+      <!-- ========================================================
+           7. A NOTE
+           ======================================================== -->
+      <section id="note-section">
+        <div class="ov-kicker reveal">A little note</div>
+        <h2 class="ov-heading reveal" style="margin-bottom:20px;">For You</h2>
+        <div class="note-card reveal">
+          <div class="quote-mark">&ldquo;</div>
+          <p id="welcomeNote">Your presence is the greatest gift of all. We can't wait to celebrate this beautiful new beginning surrounded by the people who mean the most to us — welcome, and thank you for being here.</p>
+          <div class="note-sign">&mdash; With love</div>
+        </div>
+      </section>
+
+      <div class="divider blend-g" aria-hidden="true"><span class="d-line"></span></div>
+
+      <!-- ========================================================
+           8. LOCATION
+           ======================================================== -->
+      <section class="section" id="location-section">
+        <div class="ov-kicker reveal">Find your way</div>
+        <h2 class="ov-heading reveal">Venue Location</h2>
+        <div class="location-card reveal">
+          <iframe class="map-frame" id="mapFrame" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Venue location map"></iframe>
+          <div class="location-info">
+            <div class="location-venue" id="locationVenue">NRC Gardens</div>
+            <div class="location-address" id="locationAddress">No. 6-23/2, Pragathi Nagar, Moosapet, Hyderabad</div>
+            <a class="btn-directions" id="directionsLink" href="#" target="_blank" rel="noopener">Get Directions ↗</a>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider blend-h" aria-hidden="true"><span class="d-line"></span></div>
+
+      <!-- ========================================================
+           9. WITH LOVE
+           ======================================================== -->
+      <footer id="closing">
+        <div class="blob" aria-hidden="true"></div>
+        <div class="motif" aria-hidden="true">
+          <svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="28" cy="28" r="26" stroke="#f2d98b" stroke-width="1.2"/>
+            <circle cx="28" cy="28" r="18" stroke="#f2d98b" stroke-width="1"/>
+            <circle cx="28" cy="28" r="3" fill="#f2d98b"/>
+          </svg>
+        </div>
+        <p class="blessing">With the blessings of our elders and the warmth of your presence, we begin our forever.</p>
+        <div class="with-love">With love,</div>
+        <div class="closing-groom" id="closingGroom">Uma Maheswara Rao</div>
+        <div class="closing-parents" id="closingParents">Son of Sri Padala Manmada Rao &amp; Smt. Padala Vimala</div>
+        <div class="made-with-love">Made with love</div>
+      </footer>
+
+    </div><!-- /#lockedContent -->
+  </div><!-- /#afterCover -->
+
+</div>
+
+<script src="script.js?v=3"></script>
+</body>
+</html>
