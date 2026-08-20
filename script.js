@@ -4,13 +4,11 @@
 const CONFIG = {
   groom: {
     name: "Uma Maheswara Rao",
-    parents: "Son of Sri Padala Manmada Rao & Smt. Padala Vimala",
-    blurb: "Warm-hearted and easygoing, with a ready smile for everyone."
+    parents: "Son of Sri Padala Manmada Rao & Smt. Padala Vimala"
   },
   bride: {
     name: "Divya Teja",
-    parents: "Daughter of Sri Tamiri Yama Rao & Smt. Tamiri Saraswathi",
-    blurb: "Graceful and full of warmth, she lights up every gathering."
+    parents: "Daughter of Sri Tamiri Yama Rao & Smt. Tamiri Saraswathi"
   },
 
   // Countdown target — the Sumuhurtham moment
@@ -42,18 +40,23 @@ document.addEventListener("DOMContentLoaded", () => {
   // date is scratched. See unlockContent().
 });
 
+/* Every lookup is guarded, so removing an element from the HTML
+   can never throw and break the rest of the page. */
 function applyConfigText() {
-  document.getElementById("groomName").textContent = CONFIG.groom.name;
-  document.getElementById("groomParents").textContent = CONFIG.groom.parents;
-  document.getElementById("groomBlurb").textContent = CONFIG.groom.blurb;
-  document.getElementById("brideName").textContent = CONFIG.bride.name;
-  document.getElementById("brideParents").textContent = CONFIG.bride.parents;
-  document.getElementById("brideBlurb").textContent = CONFIG.bride.blurb;
-  document.getElementById("scratchDate").textContent = CONFIG.saveTheDate;
-  document.getElementById("scratchVenue").textContent = CONFIG.venueShort;
-  document.getElementById("welcomeNote").textContent = CONFIG.welcomeNote;
-  document.getElementById("closingGroom").textContent = CONFIG.groom.name;
-  document.getElementById("closingParents").textContent = CONFIG.groom.parents;
+  const set = (id, value) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = value;
+  };
+
+  set("groomName", CONFIG.groom.name);
+  set("groomParents", CONFIG.groom.parents);
+  set("brideName", CONFIG.bride.name);
+  set("brideParents", CONFIG.bride.parents);
+  set("scratchDate", CONFIG.saveTheDate);
+  set("scratchVenue", CONFIG.venueShort);
+  set("welcomeNote", CONFIG.welcomeNote);
+  set("closingGroom", CONFIG.groom.name);
+  set("closingParents", CONFIG.groom.parents);
 }
 
 /* ============================================================
@@ -61,6 +64,9 @@ function applyConfigText() {
    ============================================================ */
 function initLetterReveal() {
   document.querySelectorAll(".letters").forEach((el) => {
+    if (el.dataset.split === "1") return;   // never split the same element twice
+    el.dataset.split = "1";
+
     if (el.querySelector(".amp")) {
       wrapLettersPreservingAmp(el);
     } else {
@@ -113,14 +119,17 @@ function initScrollReveal() {
       }
     });
   }, { threshold: 0.15, rootMargin: "0px 0px -6% 0px" });
-  document.querySelectorAll(".reveal, .letters").forEach((el) => io.observe(el));
+
+  document.querySelectorAll(".reveal, .letters").forEach((el) => {
+    if (!el.classList.contains("in-view")) io.observe(el);
+  });
 }
 
 /* ============================================================
    CONFETTI — small, colourful five-petal flowers.
-   Behaviour: one popper burst when the cover heart is tapped,
-   then nothing. After the date is scratched: another burst, and
-   from that point the ambient fall runs continuously.
+   One popper burst when the cover heart is tapped. After the
+   date is scratched: another burst, then a continuous ambient
+   fall from that point on.
    ============================================================ */
 const FLOWER_COLORS = [
   "#f2465e", "#ff6b8a", "#ffa62b", "#ffd93d", "#7ed957",
@@ -229,23 +238,30 @@ function startMusic() {
   if (!audio) return;
 
   audio.volume = 0;
-  audio.play().then(() => {
-    if (toggle) toggle.hidden = false;
-    let v = 0;
-    const fade = setInterval(() => {
-      v += 0.02;
-      if (v >= 0.35) { v = 0.35; clearInterval(fade); }
-      audio.volume = v;
-    }, 120);
-  }).catch(() => {
-    // some browsers still refuse — show the button so it can be started by hand
-    if (toggle) toggle.hidden = false;
-  });
+  const attempt = audio.play();
+
+  if (attempt && typeof attempt.then === "function") {
+    attempt.then(() => {
+      if (toggle) toggle.hidden = false;
+      let v = 0;
+      const fade = setInterval(() => {
+        v += 0.02;
+        if (v >= 0.35) { v = 0.35; clearInterval(fade); }
+        audio.volume = v;
+      }, 120);
+    }).catch(() => {
+      // some browsers still refuse — show the button so it can be started by hand
+      if (toggle) { toggle.hidden = false; toggle.classList.add("muted"); }
+    });
+  } else if (toggle) {
+    toggle.hidden = false;
+  }
 
   if (toggle && !toggle.dataset.bound) {
     toggle.dataset.bound = "1";
     toggle.addEventListener("click", () => {
       if (audio.paused) {
+        audio.volume = 0.35;
         audio.play();
         toggle.classList.remove("muted");
       } else {
@@ -321,8 +337,10 @@ function setupScratchCard() {
       canvas.style.transition = "opacity 0.5s ease";
       canvas.style.opacity = "0";
       setTimeout(() => { canvas.style.display = "none"; }, 500);
-      hint.textContent = "Revealed — scroll on ✦";
-      hint.classList.add("done");
+      if (hint) {
+        hint.textContent = "Revealed — scroll on ✦";
+        hint.classList.add("done");
+      }
       unlockContent();
     }
   }
@@ -351,6 +369,12 @@ function unlockContent() {
   startAmbientConfetti();
   // re-observe newly visible elements so their reveals fire
   setTimeout(initScrollReveal, 100);
+
+  // Nudge the page so the next section peeks into view — makes it
+  // obvious there's more below, without yanking them off the reveal
+  setTimeout(() => {
+    window.scrollBy({ top: 260, behavior: "smooth" });
+  }, 1100);
 }
 
 /* ============================================================
@@ -362,7 +386,7 @@ function setupCountdown() {
   const h = document.getElementById("cdHours");
   const m = document.getElementById("cdMinutes");
   const s = document.getElementById("cdSeconds");
-  if (!d) return;
+  if (!d || !h || !m || !s) return;
 
   function tick() {
     let diff = Math.max(0, target - Date.now());
@@ -385,9 +409,14 @@ function setupCountdown() {
 function renderLocation() {
   const mapFrame = document.getElementById("mapFrame");
   if (!mapFrame) return;
+
   const q = encodeURIComponent(CONFIG.location.mapQuery);
   mapFrame.src = `https://www.google.com/maps?q=${q}&output=embed`;
-  document.getElementById("locationVenue").textContent = CONFIG.location.venueName;
-  document.getElementById("locationAddress").textContent = CONFIG.location.address;
-  document.getElementById("directionsLink").href = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
+
+  const venue = document.getElementById("locationVenue");
+  const address = document.getElementById("locationAddress");
+  const directions = document.getElementById("directionsLink");
+  if (venue) venue.textContent = CONFIG.location.venueName;
+  if (address) address.textContent = CONFIG.location.address;
+  if (directions) directions.href = `https://www.google.com/maps/dir/?api=1&destination=${q}`;
 }
