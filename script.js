@@ -128,8 +128,7 @@ function initScrollReveal() {
    from that point on the ambient fall runs continuously.
    ============================================================ */
 const ROSE_COLORS = ["#c23a5c", "#e0466a", "#f2465e", "#a3313f"];
-const LEAF_COLORS = ["#3f8f5c", "#5aa66d", "#d9a637", "#c96f1c"];
-let ambientStarted = false;
+const LEAF_COLORS = ["#3f8f5c", "#5aa66d", "#77bd83", "#2e7048", "#d9a637", "#c96f1c", "#e8b84b", "#8fae4a"];let ambientStarted = false;
 
 function rosePetalSVG(color) {
   return `<svg viewBox="0 0 20 26" xmlns="http://www.w3.org/2000/svg">
@@ -155,9 +154,9 @@ function leafSVG(color) {
 }
 function randomPiece() {
   const roll = Math.random();
-  if (roll < 0.4) return rosePetalSVG(ROSE_COLORS[Math.floor(Math.random() * ROSE_COLORS.length)]);
-  if (roll < 0.7) return jasmineSVG();
-  return leafSVG(LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)]);
+  if (roll < 0.55) return leafSVG(LEAF_COLORS[Math.floor(Math.random() * LEAF_COLORS.length)]);
+  if (roll < 0.80) return rosePetalSVG(ROSE_COLORS[Math.floor(Math.random() * ROSE_COLORS.length)]);
+  return jasmineSVG();
 }
 
 function spawnConfettiBurst(count = 28) {
@@ -168,11 +167,14 @@ function spawnConfettiBurst(count = 28) {
     piece.className = "confetti-piece burst";
     piece.innerHTML = randomPiece();
     const size = 11 + Math.random() * 15;
-    piece.style.left = (38 + Math.random() * 24) + "%";
     piece.style.top = "18%";
     piece.style.width = size + "px";
     piece.style.height = size + "px";
     piece.style.animationDelay = (Math.random() * 0.2) + "s";
+	
+piece.style.left = (20 + Math.random() * 60) + "%";
+piece.style.setProperty("--bx", (Math.random() * 460 - 230) + "px");
+piece.style.setProperty("--by", (220 + Math.random() * 420) + "px");
     piece.style.setProperty("--bx", (Math.random() * 300 - 150) + "px");
     piece.style.setProperty("--by", (240 + Math.random() * 260) + "px");
     piece.style.setProperty("--spin", (Math.random() > 0.5 ? 1 : -1) * (300 + Math.random() * 400) + "deg");
@@ -216,7 +218,7 @@ function setupTapButton() {
   button.addEventListener("click", () => {
     if (scene.classList.contains("opened")) return;
     scene.classList.add("opened");
-    spawnConfettiBurst(34);
+    spawnConfettiBurst(110);
     startMusic();
     if (after) after.classList.add("unlocked");
     document.body.style.overflow = "auto";
@@ -355,7 +357,7 @@ function unlockContent() {
   const locked = document.getElementById("lockedContent");
   if (!locked) return;
   locked.classList.add("unlocked");
-  spawnConfettiBurst(26);
+  spawnConfettiBurst(110);
   startAmbientConfetti();
   setTimeout(initScrollReveal, 100);
 
