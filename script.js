@@ -43,22 +43,17 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function applyConfigText() {
-  const set = (id, value) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  };
-
-  set("groomName", CONFIG.groom.name);
-  set("groomParents", CONFIG.groom.parents);
-  set("groomBlurb", CONFIG.groom.blurb);
-  set("brideName", CONFIG.bride.name);
-  set("brideParents", CONFIG.bride.parents);
-  set("brideBlurb", CONFIG.bride.blurb);
-  set("scratchDate", CONFIG.saveTheDate);
-  set("scratchVenue", CONFIG.venueShort);
-  set("welcomeNote", CONFIG.welcomeNote);
-  set("closingGroom", CONFIG.groom.name);
-  set("closingParents", CONFIG.groom.parents);
+  document.getElementById("groomName").textContent = CONFIG.groom.name;
+  document.getElementById("groomParents").textContent = CONFIG.groom.parents;
+  document.getElementById("groomBlurb").textContent = CONFIG.groom.blurb;
+  document.getElementById("brideName").textContent = CONFIG.bride.name;
+  document.getElementById("brideParents").textContent = CONFIG.bride.parents;
+  document.getElementById("brideBlurb").textContent = CONFIG.bride.blurb;
+  document.getElementById("scratchDate").textContent = CONFIG.saveTheDate;
+  document.getElementById("scratchVenue").textContent = CONFIG.venueShort;
+  document.getElementById("welcomeNote").textContent = CONFIG.welcomeNote;
+  document.getElementById("closingGroom").textContent = CONFIG.groom.name;
+  document.getElementById("closingParents").textContent = CONFIG.groom.parents;
 }
 
 /* ============================================================
@@ -122,31 +117,29 @@ function initScrollReveal() {
 }
 
 /* ============================================================
-   CONFETTI — rose petals, jasmine, gold & green leaves
-   Behaviour: one burst when the cover button is tapped, then
-   nothing. After the date is scratched: another burst, and
-   from that point on the ambient fall runs continuously.
+   CONFETTI — small, colourful five-petal flowers.
+   Behaviour: one popper burst when the cover heart is tapped,
+   then nothing. After the date is scratched: another burst, and
+   from that point the ambient fall runs continuously.
    ============================================================ */
 const FLOWER_COLORS = [
   "#f2465e", "#ff6b8a", "#ffa62b", "#ffd93d", "#7ed957",
   "#3fb8af", "#4d96ff", "#b06bff", "#ff8fc8", "#ff4d4d",
   "#00c9a7", "#ffb703"
 ];
+const FLOWER_CENTERS = ["#ffe066", "#fff3b0", "#ffd93d"];
+
+let ambientStarted = false;
 
 function flowerSVG(color) {
-  const centers = ["#ffe066", "#fff3b0", "#ffd93d"];
-  const center = centers[Math.floor(Math.random() * centers.length)];
-  // five petals at 72° apart
+  const center = FLOWER_CENTERS[Math.floor(Math.random() * FLOWER_CENTERS.length)];
   let petals = "";
   for (let i = 0; i < 5; i++) {
-    petals += `<ellipse cx="10" cy="4.4" rx="3.1" ry="4.4" fill="${color}"
-                 transform="rotate(${i * 72} 10 10)"/>`;
+    petals += `<ellipse cx="10" cy="4.4" rx="3.1" ry="4.4" fill="${color}" transform="rotate(${i * 72} 10 10)"/>`;
   }
-  return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-    ${petals}
-    <circle cx="10" cy="10" r="2.3" fill="${center}"/>
-  </svg>`;
+  return `<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">${petals}<circle cx="10" cy="10" r="2.3" fill="${center}"/></svg>`;
 }
+
 function randomPiece() {
   return flowerSVG(FLOWER_COLORS[Math.floor(Math.random() * FLOWER_COLORS.length)]);
 }
@@ -164,6 +157,7 @@ function spawnConfettiBurst(count = 28) {
     piece.style.height = size + "px";
     piece.style.animationDelay = (Math.random() * 0.2) + "s";
 
+    // fire outward from a tight point in every direction, then fall
     const angle = Math.random() * Math.PI * 2;
     const dist = 90 + Math.random() * 300;
     piece.style.left = (46 + Math.random() * 8) + "%";
@@ -186,7 +180,8 @@ function startAmbientConfetti(count = 34) {
     const piece = document.createElement("div");
     piece.className = "confetti-piece ambient";
     piece.innerHTML = randomPiece();
-const size = 8 + Math.random() * 7;
+
+    const size = 8 + Math.random() * 7;
     piece.style.left = (Math.random() * 100) + "%";
     piece.style.width = size + "px";
     piece.style.height = size + "px";
@@ -207,15 +202,17 @@ function setupTapButton() {
   const after = document.getElementById("afterCover");
   if (!button || !scene) return;
 
+  // Nothing below the cover is reachable until the heart is tapped
   document.body.style.overflow = "hidden";
 
   button.addEventListener("click", () => {
     if (scene.classList.contains("opened")) return;
     scene.classList.add("opened");
-    spawnConfettiBurst(110);
+    spawnConfettiBurst(160);
     startMusic();
     if (after) after.classList.add("unlocked");
     document.body.style.overflow = "auto";
+    // let the reveal settle before the eye is drawn onward
     setTimeout(() => {
       document.querySelectorAll(".ov-intro .letters").forEach((el) => el.classList.add("in-view"));
     }, 300);
@@ -223,8 +220,8 @@ function setupTapButton() {
 }
 
 /* ============================================================
-   BACKGROUND MUSIC — starts on the first tap (browsers block
-   autoplay until the user interacts, which the tap satisfies)
+   BACKGROUND MUSIC — starts on the first tap. Browsers block
+   autoplay until the user interacts, and the tap satisfies that.
    ============================================================ */
 function startMusic() {
   const audio = document.getElementById("bgMusic");
@@ -234,7 +231,6 @@ function startMusic() {
   audio.volume = 0;
   audio.play().then(() => {
     if (toggle) toggle.hidden = false;
-    // fade in gently so it doesn't jolt anyone
     let v = 0;
     const fade = setInterval(() => {
       v += 0.02;
@@ -242,7 +238,7 @@ function startMusic() {
       audio.volume = v;
     }, 120);
   }).catch(() => {
-    // some browsers still refuse — show the button so it can be started manually
+    // some browsers still refuse — show the button so it can be started by hand
     if (toggle) toggle.hidden = false;
   });
 
@@ -351,15 +347,10 @@ function unlockContent() {
   const locked = document.getElementById("lockedContent");
   if (!locked) return;
   locked.classList.add("unlocked");
-  spawnConfettiBurst(110);
+  spawnConfettiBurst(180);
   startAmbientConfetti();
+  // re-observe newly visible elements so their reveals fire
   setTimeout(initScrollReveal, 100);
-
-  // Nudge the page so the next section peeks into view — makes it
-  // obvious there's more below without yanking them away from the reveal
-  setTimeout(() => {
-    window.scrollBy({ top: 260, behavior: "smooth" });
-  }, 1100);
 }
 
 /* ============================================================
